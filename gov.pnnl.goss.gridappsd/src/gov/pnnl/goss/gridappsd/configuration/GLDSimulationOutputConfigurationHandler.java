@@ -107,7 +107,7 @@ public class GLDSimulationOutputConfigurationHandler extends BaseConfigurationHa
 	
 	
 	public static final String HELICS_PREFIX = "{\"name\": \"PROCESS_ID\","
-											  + "\"log_level\": 3,"
+											  + "\"log_level\": \"WARNING\","
 											  + "\"period\": 1.0,"
 											  + "\"broker\": \"BROKER_LOCATION:BROKER_PORT\","
 											  + "\"endpoints\": [{"
