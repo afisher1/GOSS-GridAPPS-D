@@ -557,8 +557,9 @@ public class GLDAllConfigurationHandler extends BaseConfigurationHandler impleme
 				
 				Row row = rowIterator.next();
 				if(!isHeader){
-					loadNames.add(row.getCell(5).getStringCellValue());
-					System.out.println(row.getCell(5).getStringCellValue());
+					if(row.getCell(5)!=null){
+						loadNames.add(row.getCell(5).getStringCellValue());
+					}
 				}
 				isHeader=false;
 	        }
