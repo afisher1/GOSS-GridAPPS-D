@@ -640,7 +640,8 @@ class HelicsGossBridge(object):
             self._helics_configuration = {
                 "name": f"HELICS_GOSS_Bridge_{self._simulation_id}",
                 "period": 1.0,
-                "log_level": "WARNING",
+                "coreinit": f"-logfile HELICS_GOSS_Bridge_{self._simulation_id}.log",
+                "log_level": "data",
                 "broker": f"127.0.0.1:{self._broker_port}",
                 "endpoints": [
                     {
