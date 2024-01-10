@@ -1,3 +1,4 @@
+* text=auto
 # Text files with LF eol
 *.auth crlf=input
 *.awk crlf=input
