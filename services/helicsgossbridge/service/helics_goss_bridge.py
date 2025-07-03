@@ -277,10 +277,14 @@ class HelicsGossBridge(object):
     
     
     def __init__(self, simulation_id, broker_port, simulation_request):
-        
         self._simulation_id = simulation_id
         self._broker_port = broker_port
         self._simulation_request = simulation_request
+        self._deconfliction_service_running = False
+        for serviceDict in self._simulation_request.get("service_configs", []):
+            if serviceDict.get("id", "") == "gridappsd-app-deconfliction-service":
+                self._deconfliction_service_running = True
+                break
         # register with GridAPPS-D
         self._register_with_goss()
         # register with HELICS
@@ -667,7 +671,10 @@ class HelicsGossBridge(object):
         try:
             self._gad_connection = GridAPPSD(self._simulation_id)
             log.debug("Successfully registered with the GridAPPS-D platform.")
-            self._gad_connection.subscribe(topics.simulation_input_topic(self._simulation_id), self.on_message)
+            if self._deconfliction_service_running:
+                self._gad_connection.subscribe(topics.service_output_topic("deconfliction_service", self._simulation_id), self.on_message)
+            else:
+                self._gad_connection.subscribe(topics.simulation_input_topic(self._simulation_id), self.on_message)
             self._gad_connection.subscribe("/topic/goss.gridappsd.cosim.input."+self._simulation_id, self.on_message)
         except Exception as e:
             log.error("An error occurred when trying to register with the GridAPPS-D platform!", exc_info=True)
